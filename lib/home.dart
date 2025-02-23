@@ -5,22 +5,25 @@ import 'model/products_repository.dart';
 import 'supplemental/asymmetric_view.dart';
 
 class HomePage extends StatelessWidget {
-  // TODO: Add a variable for Category (104)
-  final Category category;
+  final Category currentCategory;
 
-  const HomePage({this.category = Category.all, Key? key}) : super(key: key);
+  const HomePage({Key? key, required this.currentCategory}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Pass Category variable to AsymmetricView (104)
-    return AsymmetricView(
-      products: ProductsRepository.loadProducts(category),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Shrine'),
+        backgroundColor: kShrinePink100,
+      ),
+      body: AsymmetricView(
+        products: ProductsRepository.loadProducts(currentCategory),
+      ),
     );
   }
 }
 
 class _ShrineAppState extends State<ShrineApp> {
-  // TODO: Make currentCategory field take _currentCategory (104)
   final Category _currentCategory = Category.all;
 
   @override
@@ -30,11 +33,9 @@ class _ShrineAppState extends State<ShrineApp> {
       initialRoute: '/login',
       routes: {
         '/login': (BuildContext context) => const LoginPage(),
-        // TODO: Pass _currentCategory for frontLayer (104)
         '/': (BuildContext context) =>
             HomePage(currentCategory: _currentCategory),
       },
-      // TODO: Customize the theme (103)
       theme: ThemeData(
         useMaterial3: true,
         textTheme: _buildShrineTextTheme(ThemeData.light().textTheme),
@@ -58,27 +59,6 @@ class _ShrineAppState extends State<ShrineApp> {
   }
 }
 
-// TODO: Update HomePage to receive currentCategory (104)
-class HomePage extends StatelessWidget {
-  final Category currentCategory;
-
-  const HomePage({Key? key, required this.currentCategory}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // TODO: Add app bar (102)
-        title: const Text('Shrine'),
-        backgroundColor: kShrinePink100,
-      ),
-    
-     // TODO: Return an AsymmetricView (104)
-return AsymmetricView(products: ProductsRepository.loadProducts(Category.all));
-    );
-  }
-}
-
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -92,7 +72,6 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-// TODO: Build a Shrine Text Theme (103)
 TextTheme _buildShrineTextTheme(TextTheme base) {
   return base
       .copyWith(

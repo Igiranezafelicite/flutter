@@ -27,7 +27,6 @@ class Backdrop extends StatefulWidget {
 }
 
 // TODO: Add _FrontLayer class (104)
-// TODO: Add _FrontLayer class (104)
 class _FrontLayer extends StatelessWidget {
   // TODO: Add on-tap callback (104)
   const _FrontLayer({
@@ -38,13 +37,6 @@ class _FrontLayer extends StatelessWidget {
 
   final VoidCallback? onTap; // New code
   final Widget child;
-  // TODO: Add on-tap callback (104)
-  const _FrontLayer({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +45,7 @@ class _FrontLayer extends StatelessWidget {
       shape: const BeveledRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(46.0)),
       ),
-            child: Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           // TODO: Add a GestureDetector (104)
@@ -69,13 +61,11 @@ class _FrontLayer extends StatelessWidget {
             child: child,
           ),
         ],
-      )
       ),
-    )
+    );
   }
 }
 
-// TODO: Add _BackdropTitle class (104)
 // TODO: Add _BackdropTitle class (104)
 class _BackdropTitle extends AnimatedWidget {
   final void Function() onPress;
@@ -88,8 +78,8 @@ class _BackdropTitle extends AnimatedWidget {
     required this.onPress,
     required this.frontTitle,
     required this.backTitle,
-  }) : _listenable = listenable, 
-       super(key: key, listenable: listenable);
+  })  : _listenable = listenable,
+        super(key: key, listenable: listenable);
 
   final Animation<double> _listenable;
 
@@ -119,7 +109,8 @@ class _BackdropTitle extends AnimatedWidget {
                   end: const Offset(1.0, 0.0),
                 ).evaluate(animation),
                 child: const ImageIcon(AssetImage('assets/diamond.png')),
-              )]),
+              )
+            ]),
           ),
         ),
         // Here, we do a custom cross fade between backTitle and frontTitle.
@@ -158,12 +149,12 @@ class _BackdropTitle extends AnimatedWidget {
     );
   }
 }
+
 // TODO: Add _BackdropState class (104)
 class _BackdropState extends State<Backdrop>
     with SingleTickerProviderStateMixin {
   final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
 
-  // TODO: Add AnimationController widget (104)
   // TODO: Add AnimationController widget (104)
   late AnimationController _controller;
 
@@ -190,7 +181,6 @@ class _BackdropState extends State<Backdrop>
   }
 
   // TODO: Add functions to get and change front layer visibility (104)
-  // TODO: Add functions to get and change front layer visibility (104)
   bool get _frontLayerVisible {
     final AnimationStatus status = _controller.status;
     return status == AnimationStatus.completed ||
@@ -202,7 +192,6 @@ class _BackdropState extends State<Backdrop>
         velocity: _frontLayerVisible ? -_kFlingVelocity : _kFlingVelocity);
   }
 
-  // TODO: Add BuildContext and BoxConstraints parameters to _buildStack (104)
   // TODO: Add BuildContext and BoxConstraints parameters to _buildStack (104)
   Widget _buildStack(BuildContext context, BoxConstraints constraints) {
     const double layerTitleHeight = 48.0;
@@ -225,15 +214,10 @@ class _BackdropState extends State<Backdrop>
           excluding: _frontLayerVisible,
         ),
         // TODO: Add a PositionedTransition (104)
-                  PositionedTransition(
-            rect: layerAnimation,
-            child: _FrontLayer(
-              // TODO: Implement onTap property on _BackdropState (104)
-              onTap: _toggleBackdropLayerVisibility,
-              child: widget.frontLayer,
-            ),
-          
-            // TODO: Implement onTap property on _BackdropState (104)
+        PositionedTransition(
+          rect: layerAnimation,
+          child: _FrontLayer(
+            onTap: _toggleBackdropLayerVisibility,
             child: widget.frontLayer,
           ),
         ),
@@ -247,21 +231,19 @@ class _BackdropState extends State<Backdrop>
       elevation: 0.0,
       titleSpacing: 0.0,
       // TODO: Replace leading menu icon with IconButton (104)
-      // TODO: Replace leading menu icon with IconButton (104)
       leading: IconButton(
         icon: const Icon(Icons.menu),
         onPressed: _toggleBackdropLayerVisibility,
       ),
-      // TODO: Remove leading property (104)
       // TODO: Create title with _BackdropTitle parameter (104)
-    title: _BackdropTitle(
-  listenable: _controller.view,
-  onPress: _toggleBackdropLayerVisibility,
-  frontTitle: widget.frontTitle,
-  backTitle: widget.backTitle,
-),
-     
-               // TODO: Add shortcut to login screen from trailing icons (104)
+      title: _BackdropTitle(
+        listenable: _controller.view,
+        onPress: _toggleBackdropLayerVisibility,
+        frontTitle: widget.frontTitle,
+        backTitle: widget.backTitle,
+      ),
+      actions: <Widget>[
+        // TODO: Add shortcut to login screen from trailing icons (104)
         IconButton(
           icon: const Icon(
             Icons.search,
@@ -272,7 +254,8 @@ class _BackdropState extends State<Backdrop>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => LoginPage()),
+                builder: (BuildContext context) => const LoginPage(),
+              ),
             );
           },
         ),
@@ -286,12 +269,9 @@ class _BackdropState extends State<Backdrop>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => LoginPage()),
+                builder: (BuildContext context) => const LoginPage(),
+              ),
             );
-          },
-        ),
-          onPressed: () {
-            // TODO: Add open login (104)
           },
         ),
         IconButton(
@@ -305,6 +285,7 @@ class _BackdropState extends State<Backdrop>
         ),
       ],
     );
+
     return Scaffold(
       appBar: appBar,
       // TODO: Return a LayoutBuilder widget (104)
