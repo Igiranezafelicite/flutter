@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:shrine/colors.dart'; // Ensure this contains kShrineBrown900 & kShrinePink100
-import 'supplemental/cut_corners_border.dart'; // Ensure this contains CutCornersBorder
 
-enum Category { all, accessories, clothing, home }
+import 'model/product.dart';
+import 'model/products_repository.dart';
+import 'supplemental/asymmetric_view.dart';
 
-// TODO: Add a variable for Category (104)
-class ShrineApp extends StatefulWidget {
-  const ShrineApp({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  // TODO: Add a variable for Category (104)
+  final Category category;
+
+  const HomePage({this.category = Category.all, Key? key}) : super(key: key);
 
   @override
-  _ShrineAppState createState() => _ShrineAppState();
+  Widget build(BuildContext context) {
+    // TODO: Pass Category variable to AsymmetricView (104)
+    return AsymmetricView(
+      products: ProductsRepository.loadProducts(category),
+    );
+  }
 }
 
 class _ShrineAppState extends State<ShrineApp> {
@@ -65,10 +72,9 @@ class HomePage extends StatelessWidget {
         title: const Text('Shrine'),
         backgroundColor: kShrinePink100,
       ),
-      // TODO: Return an AsymmetricView (104)
-      body: Center(
-        child: Text('Current Category: $currentCategory'),
-      ),
+    
+     // TODO: Return an AsymmetricView (104)
+return AsymmetricView(products: ProductsRepository.loadProducts(Category.all));
     );
   }
 }

@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:shrine/colors.dart'; // Ensure this contains kShrineBrown900 & kShrinePink100
+import 'backdrop.dart';
+import 'category_menu_page.dart';
+import 'colors.dart';
+import 'home.dart';
+import 'login.dart';
+import 'model/product.dart';
 import 'supplemental/cut_corners_border.dart';
-import 'category.dart'; // Import Category enum
-import 'home.dart' as home; // Use prefix for home.dart
-import 'login.dart' as login; // Use prefix for login.dart
-
 // TODO: Add a variable for Category (104)
 class ShrineApp extends StatefulWidget {
   const ShrineApp({Key? key}) : super(key: key);
@@ -12,11 +12,28 @@ class ShrineApp extends StatefulWidget {
   @override
   _ShrineAppState createState() => _ShrineAppState();
 }
-
 class _ShrineAppState extends State<ShrineApp> {
-  // TODO: Make currentCategory field take _currentCategory (104)
-  final Category _currentCategory = Category.all;
+  Category _currentCategory = Category.all;
 
+  void _onCategoryTap(Category category) {
+    setState(() {
+      _currentCategory = category;
+    });
+  }
+// TODO: Change to a Backdrop with a HomePage frontLayer (104)
+'/''/': (BuildContext context) => Backdrop(
+              // TODO: Make currentCategory field take _currentCategory (104)
+              currentCategory: _currentCategory,
+              // TODO: Pass _currentCategory for frontLayer (104)
+              frontLayer: const HomePage(),
+              // TODO: Change backLayer field value to CategoryMenuPage (104)
+              backLayer: CategoryMenuPage(
+                currentCategory: _currentCategory,
+                onCategoryTap: _onCategoryTap,
+              ),
+              frontTitle: const Text('SHRINE'),
+              backTitle: const Text('MENU'),
+            ),
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,28 +47,38 @@ class _ShrineAppState extends State<ShrineApp> {
             home.HomePage(currentCategory: _currentCategory), // Use the prefix
       },
       // TODO: Customize the theme (103)
-      theme: ThemeData(
-        useMaterial3: true,
-        textTheme: _buildShrineTextTheme(ThemeData.light().textTheme),
-        textSelectionTheme: const TextSelectionThemeData(
-          selectionColor: kShrinePink100,
-        ),
-        inputDecorationTheme: const InputDecorationTheme(
-          border: CutCornersBorder(),
-          focusedBorder: CutCornersBorder(
-            borderSide: BorderSide(
-              width: 2.0,
-              color: kShrineBrown900,
-            ),
-          ),
-          floatingLabelStyle: TextStyle(
-            color: kShrineBrown900,
-          ),
+      ThemeData _buildShrineTheme() {
+  final ThemeData base = ThemeData.light(useMaterial3: true);
+  return base.copyWith(
+    colorScheme: base.colorScheme.copyWith(
+      primary: kShrinePink100,
+      onPrimary: kShrineBrown900,
+      secondary: kShrineBrown900,
+      error: kShrineErrorRed,
+    ),
+    textTheme: _buildShrineTextTheme(base.textTheme),
+    textSelectionTheme: const TextSelectionThemeData(
+      selectionColor: kShrinePink100,
+    ),
+    appBarTheme: const AppBarTheme(
+      foregroundColor: kShrineBrown900,
+      backgroundColor: kShrinePink100,
+    ),
+    inputDecorationTheme: const InputDecorationTheme(
+      border: CutCornersBorder(),
+      focusedBorder: CutCornersBorder(
+        borderSide: BorderSide(
+          width: 2.0,
+          color: kShrineBrown900,
         ),
       ),
-    );
-  }
+      floatingLabelStyle: TextStyle(
+        color: kShrineBrown900,
+      ),
+    ),
+  );
 }
+
 
 // TODO: Update HomePage to receive currentCategory (104)
 class HomePage extends StatelessWidget {
